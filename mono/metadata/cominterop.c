@@ -507,7 +507,9 @@ cominterop_class_guid (MonoClass* klass, guint8* guid)
 		cominterop_mono_string_to_guid (attr->guid, guid);
 		return TRUE;
 	}
-	return FALSE;
+
+	mono_generate_v3_guid_for_type (klass, guid);
+	return TRUE;
 }
 
 static gboolean
@@ -549,8 +551,8 @@ cominterop_com_visible (MonoClass* klass)
 
 }
 
-static gboolean
-cominterop_method_com_visible (MonoMethod *method)
+gboolean
+mono_cominterop_method_com_visible (MonoMethod *method)
 {
 	ERROR_DECL (error);
 	MonoCustomAttrInfo *cinfo;
@@ -2154,7 +2156,7 @@ cominterop_class_method_is_visible (MonoMethod *method)
 	if (flags & METHOD_ATTRIBUTE_RT_SPECIAL_NAME)
 		return FALSE;
 
-	if (!cominterop_method_com_visible (method))
+	if (!mono_cominterop_method_com_visible (method))
 		return FALSE;
 
 	/* if the method is an override, ignore it and use the original definition */

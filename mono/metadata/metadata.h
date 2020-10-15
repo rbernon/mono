@@ -510,6 +510,8 @@ MONO_API uint32_t      mono_metadata_decode_table_row_col (MonoImage *image, int
 					   int            idx, 
 					   unsigned int          col);
 
+MONO_API void mono_generate_v3_guid_for_type (MonoClass* klass, uint8_t* guid);
+
 MONO_END_DECLS
 
 #endif /* __MONO_METADATA_H__ */
